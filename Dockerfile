@@ -8,7 +8,12 @@ RUN docker-php-ext-install mysqli \
  && a2enconf servername \
  && { echo "expose_php = Off"; echo "display_errors = Off"; echo "log_errors = On"; \
       echo "session.cookie_httponly = 1"; echo "date.timezone = Africa/Addis_Ababa"; } \
-    > /usr/local/etc/php/conf.d/srms.ini
+    > /usr/local/etc/php/conf.d/srms.ini \
+ && printf '%s\n' \
+      '<Directory /var/www/html/includes>' '    Require all denied' '</Directory>' \
+      '<FilesMatch "\.(sql|md|ps1|bat)$">' '    Require all denied' '</FilesMatch>' \
+    > /etc/apache2/conf-available/srms-protect.conf \
+ && a2enconf srms-protect
 
 COPY . /var/www/html/
 RUN chown -R www-data:www-data /var/www/html
