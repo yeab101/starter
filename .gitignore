@@ -1,0 +1,4 @@
+# Build outputs and local runtime files
+/SRMS-Portable/
+*.zip
+*.log

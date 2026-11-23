@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Student Registration System - User Guide</title>
+<style>
+    @page { size: A4; margin: 16mm 16mm 18mm; }
+    * { box-sizing: border-box; }
+    body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10.5pt; color: #1d2433; line-height: 1.45; margin: 0; }
+    h1 { font-size: 22pt; color: #1f4e8c; margin: 0 0 4pt; }
+    h2 { font-size: 14pt; color: #1f4e8c; border-bottom: 2px solid #1f4e8c; padding-bottom: 3pt; margin: 20pt 0 8pt; break-after: avoid; }
+    h3 { font-size: 11pt; margin: 12pt 0 4pt; break-after: avoid; }
+    p { margin: 0 0 6pt; }
+    ol, ul { margin: 0 0 8pt; padding-left: 18pt; }
+    li { margin-bottom: 3pt; }
+    .cover { display: flex; align-items: center; gap: 14pt; border-bottom: 4px solid #f2a900; padding-bottom: 10pt; margin-bottom: 10pt; }
+    .logo { width: 54pt; height: 54pt; border-radius: 50%; background: #f2a900; color: #163a69; font-weight: 800; font-size: 15pt; display: flex; align-items: center; justify-content: center; flex: none; }
+    .sub { color: #6b7486; font-size: 11pt; }
+    .box { background: #eef3fa; border-left: 4px solid #1f4e8c; padding: 7pt 10pt; margin: 8pt 0; break-inside: avoid; }
+    .warn { background: #fdf3e1; border-left-color: #d98a00; }
+    .login { font-size: 12pt; }
+    .login b { font-family: Consolas, monospace; background: #fff; padding: 1pt 6pt; border: 1px solid #cdd6e4; border-radius: 3pt; }
+    figure { margin: 8pt 0 10pt; break-inside: avoid; }
+    figure img { width: 100%; border: 1px solid #cdd6e4; border-radius: 4pt; display: block; }
+    figure.half img { width: 70%; margin: 0 auto; }
+    figcaption { font-size: 9pt; color: #6b7486; text-align: center; margin-top: 3pt; }
+    table { width: 100%; border-collapse: collapse; margin: 6pt 0 10pt; break-inside: avoid; }
+    th, td { border: 1px solid #d5dce7; padding: 4pt 7pt; text-align: left; vertical-align: top; }
+    th { background: #f3f6fa; }
+    .steps td:first-child { width: 32%; font-weight: 600; }
+    .grades td, .grades th { text-align: center; }
+    .k { font-weight: 600; color: #1f4e8c; }
+    .page-break { break-before: page; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+    <div class="logo">APC</div>
+    <div>
+        <h1>Student Registration System</h1>
+        <div class="sub">User Guide &middot; Adama Polytechnic College</div>
+    </div>
+</div>
+
+<p>This program keeps the college's <b>student records, courses, grades and result reports</b> in one place.
+It runs straight from its folder or a USB stick. Nothing needs to be installed.</p>
+
+<h2>1. Starting the system</h2>
+<ol>
+    <li>Open the <b>SRMS-Portable</b> folder and double-click <span class="k">Start.bat</span>.</li>
+    <li>If Windows says <i>"Windows protected your PC"</i>, click <b>More info</b> and then <b>Run anyway</b>.</li>
+    <li>A black window opens. <b>Leave it open</b> while you work. It shows the web address of the system.</li>
+    <li>The login page opens in your web browser by itself.</li>
+</ol>
+
+<h2>2. Logging in</h2>
+<figure class="half"><img src="img/1-login.png" alt="Login page"><figcaption>The login page</figcaption></figure>
+<div class="box login">Username: <b>admin</b> &nbsp;&nbsp; Password: <b>admin123</b></div>
+<p>A wrong password shows a red message asking you to try again. To change your password, click <b>your name</b> at the top right.</p>
+
+<h2>3. The dashboard and menu</h2>
+<p>After logging in you see the <b>dashboard</b>. It shows the totals and the most recent activity.</p>
+<figure><img src="img/2-dashboard.png" alt="Dashboard"><figcaption>The dashboard with the menu at the top</figcaption></figure>
+<table>
+    <tr><th>Menu</th><th>What it is for</th></tr>
+    <tr><td class="k">Dashboard</td><td>Totals: students, courses, grades, passed and failed</td></tr>
+    <tr><td class="k">Students</td><td>Register, find, change or remove students</td></tr>
+    <tr><td class="k">Courses</td><td>Add, find, change or remove courses</td></tr>
+    <tr><td class="k">Grades</td><td>Enter and change students' marks</td></tr>
+    <tr><td class="k">Academic Reports</td><td>See and print one student's results</td></tr>
+    <tr><td class="k">Users</td><td>Add or remove staff accounts <i>(administrators only)</i></td></tr>
+    <tr><td class="k">Database &#8599;</td><td>Look at the raw database tables <i>(administrators only, see section 6)</i></td></tr>
+    <tr><td class="k">Logout</td><td>Leave the system safely</td></tr>
+</table>
+
+<h2 class="page-break">4. Everyday tasks</h2>
+<table class="steps">
+    <tr><th>Task</th><th>Steps</th></tr>
+    <tr><td>Register a new student</td><td>Students &rarr; <b>+ Register student</b> &rarr; fill in the form &rarr; <b>Save</b></td></tr>
+    <tr><td>Find a student</td><td>Students &rarr; choose <b>Student ID</b>, <b>Student name</b> or <b>Department</b> &rarr; type &rarr; <b>Search</b></td></tr>
+    <tr><td>Change a student's details</td><td>Students &rarr; <b>Edit</b> next to the student &rarr; change &rarr; <b>Update</b></td></tr>
+    <tr><td>Add a course</td><td>Courses &rarr; <b>+ Add course</b> &rarr; code, title, credit hours &rarr; <b>Save</b></td></tr>
+    <tr><td>Enter a mark</td><td>Grades &rarr; <b>+ Record grade</b> &rarr; choose student and course &rarr; type the mark (0&ndash;100) &rarr; <b>Save</b></td></tr>
+    <tr><td>Add a staff member</td><td>Users &rarr; fill in <b>Add a user</b> &rarr; choose Registrar or Administrator &rarr; <b>Save</b></td></tr>
+</table>
+
+<figure><img src="img/3-students.png" alt="Students list"><figcaption>The student list with search, Edit, Report and Delete buttons</figcaption></figure>
+<figure><img src="img/4-student-form.png" alt="Student registration form"><figcaption>The student registration form</figcaption></figure>
+
+<h3>Grades are worked out automatically</h3>
+<p>You only type the mark. The system gives the letter grade and Pass or Fail:</p>
+<table class="grades">
+    <tr><th>Mark</th><th>85&ndash;100</th><th>70&ndash;84</th><th>60&ndash;69</th><th>50&ndash;59</th><th>below 50</th></tr>
+    <tr><th>Grade</th><td>A</td><td>B</td><td>C</td><td>D</td><td>F</td></tr>
+    <tr><th>Result</th><td>Pass</td><td>Pass</td><td>Pass</td><td>Pass</td><td><b>Fail</b></td></tr>
+</table>
+<figure><img src="img/5-grade-form.png" alt="Grade form"><figcaption>Entering a mark</figcaption></figure>
+
+<div class="box"><b>Good to know</b>
+    <ul>
+        <li>A student or course that already has grades <b>cannot be deleted</b>. This protects the academic history.</li>
+        <li>Everything is <b>saved automatically</b> and is still there the next time you start the system.</li>
+        <li><b>Registrars</b> can do all the daily work. Only <b>administrators</b> can manage staff and open the database.</li>
+    </ul>
+</div>
+
+<h2 class="page-break">5. Printing a student's result report</h2>
+<ol>
+    <li>Click <b>Academic Reports</b>.</li>
+    <li>Type the <b>student ID</b> (for example <i>APC/0101/25</i>) and click <b>Search</b>.</li>
+    <li>Check the details, then click <b>Print report</b>. The menus are left out of the printout.</li>
+</ol>
+<figure><img src="img/6-report.png" alt="Academic report"><figcaption>An academic report with grades, GPA and a signature line</figcaption></figure>
+
+<h2 class="page-break">6. Seeing the raw database</h2>
+<p>All the information is stored in a <b>MySQL database</b> called <span class="k">srms</span>.
+You can look at the stored records exactly as the database keeps them, using <b>phpMyAdmin</b>, which is included.</p>
+<ol>
+    <li>Log in as an <b>administrator</b> (for example <i>admin</i>).</li>
+    <li>Click <span class="k">Database &#8599;</span> in the top menu. phpMyAdmin opens in a <b>new browser tab</b>.
+        (Its address is also shown in the black window, next to <i>Database viewer</i>.)</li>
+    <li>On the left, click <b>srms</b>. You see the four tables and how many rows each has.</li>
+    <li>Click a table name, for example <b>students</b>, to see every row it holds.</li>
+</ol>
+<figure><img src="img/7-pma-tables.png" alt="phpMyAdmin table list"><figcaption>The srms database: its four tables and the number of rows in each</figcaption></figure>
+<figure><img src="img/8-pma-students.png" alt="phpMyAdmin students table"><figcaption>The raw students table. Each row is one student, exactly as stored.</figcaption></figure>
+
+<table>
+    <tr><th>Table</th><th>What it holds</th></tr>
+    <tr><td class="k">students</td><td>One row per student: ID, names, gender, date of birth, phone, department, program, year</td></tr>
+    <tr><td class="k">courses</td><td>One row per course: code, title, credit hours</td></tr>
+    <tr><td class="k">grades</td><td>One row per result: student ID, course code, mark, grade, Pass/Fail</td></tr>
+    <tr><td class="k">users</td><td>Staff accounts. Passwords appear as a long scrambled code (for example <i>$2y$10$...</i>), because they are stored encrypted for safety.</td></tr>
+</table>
+<div class="box warn"><b>Use phpMyAdmin only to look.</b> Buttons such as <i>Edit</i>, <i>Delete</i>, <i>Empty</i> and <i>Drop</i>
+    change the database directly and <b>cannot be undone</b>. Make all changes through the normal system pages instead.</div>
+<p><i>On a computer with XAMPP installed</i>, the same database can be seen at <b>http://localhost/phpmyadmin</b>.</p>
+
+<h2>7. Closing the system</h2>
+<ol>
+    <li>Click <b>Logout</b> in the browser.</li>
+    <li>Click the <b>black window</b> and press <b>ENTER</b>.</li>
+    <li>Wait for <i>"Stopped"</i>, then close the window. <b>Always do this before removing a USB stick.</b></li>
+</ol>
+<p>If the black window was closed by mistake, double-click <span class="k">Stop.bat</span>.</p>
+
+<h2>8. If something goes wrong</h2>
+<table>
+    <tr><th>Problem</th><th>What to do</th></tr>
+    <tr><td>The page does not open</td><td>Type the address shown in the black window, for example <i>http://127.0.0.1:8080/</i></td></tr>
+    <tr><td>The black window shows "ERROR"</td><td>Make sure the folder is not read-only and the disk is not full, then start again.</td></tr>
+    <tr><td>Forgot the password</td><td>Ask an administrator to create a new account for you on the <b>Users</b> page.</td></tr>
+    <tr><td>No <b>Database</b> link in the menu</td><td>You are logged in as a registrar. Log in as an administrator.</td></tr>
+</table>
+
+</body>
+</html>
