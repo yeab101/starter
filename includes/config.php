@@ -1,15 +1,35 @@
 <?php
 // ---------------------------------------------------------------
-// Database settings (XAMPP defaults: user "root", empty password)
+// Database settings
+// On a cloud host (e.g. AletCloud) these come from the environment
+// variables it injects (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD).
+// Otherwise the XAMPP defaults are used: user "root", empty password.
 // ---------------------------------------------------------------
-define('DB_HOST', '127.0.0.1');   // not "localhost": on Windows that tries IPv6 first and adds ~2 s per page
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'srms');   // must match the name used in database.sql
+function env_value(array $names, string $default): string
+{
+    foreach ($names as $name) {
+        $value = getenv($name);
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+    }
+    return $default;
+}
+
+// "127.0.0.1", not "localhost": on Windows "localhost" tries IPv6 first and adds ~2 s per page
+define('DB_HOST', env_value(['DB_HOST', 'MYSQL_HOST'], '127.0.0.1'));
+define('DB_USER', env_value(['DB_USER', 'MYSQL_USER'], 'root'));
+define('DB_PASS', env_value(['DB_PASSWORD', 'MYSQL_PASSWORD'], ''));
+define('DB_NAME', env_value(['DB_NAME', 'MYSQL_DATABASE'], 'srms'));
 // 3306 is the XAMPP default; the portable version sets SRMS_DB_PORT to its own port
-define('DB_PORT', (int) (getenv('SRMS_DB_PORT') ?: 3306));
-// Database viewer shown to administrators: the portable version's own phpMyAdmin, else XAMPP's
-define('PMA_URL', getenv('SRMS_PMA_URL') !== false ? (string) getenv('SRMS_PMA_URL') : 'http://localhost/phpmyadmin/');
+define('DB_PORT', (int) env_value(['SRMS_DB_PORT', 'DB_PORT', 'MYSQL_PORT'], '3306'));
+define('IS_LOCAL', in_array(DB_HOST, ['127.0.0.1', 'localhost'], true));
+
+// Database viewer shown to administrators: the portable version's own phpMyAdmin,
+// XAMPP's phpMyAdmin when running locally, and none on a cloud host
+define('PMA_URL', getenv('SRMS_PMA_URL') !== false
+    ? (string) getenv('SRMS_PMA_URL')
+    : (IS_LOCAL ? 'http://localhost/phpmyadmin/' : ''));
 
 // First account created by install.php (change the password after first login)
 define('DEFAULT_ADMIN_USERNAME', 'admin');
@@ -36,14 +56,47 @@ function db(): mysqli
         try {
             $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
             $conn->set_charset('utf8mb4');
+            ensure_schema($conn);
         } catch (mysqli_sql_exception $ex) {
             http_response_code(500);
-            die('Could not connect to the database. Start MySQL in the XAMPP Control Panel '
-                . 'and open <a href="install.php">install.php</a> if you have not set up the database yet. '
-                . '(' . htmlspecialchars($ex->getMessage()) . ')');
+            error_log('SRMS database error: ' . $ex->getMessage());
+            die(IS_LOCAL
+                ? 'Could not connect to the database. Start MySQL in the XAMPP Control Panel '
+                    . 'and open <a href="install.php">install.php</a> if you have not set up the database yet. '
+                    . '(' . htmlspecialchars($ex->getMessage()) . ')'
+                : 'The database is not available right now. Please try again in a minute.');
         }
     }
     return $conn;
+}
+
+/**
+ * Create the tables and the first admin account if the database is empty.
+ * Needed on a cloud host, where install.php is not used. Safe to run repeatedly.
+ */
+function ensure_schema(mysqli $conn): void
+{
+    if ($conn->query("SHOW TABLES LIKE 'users'")->num_rows > 0) {
+        return;
+    }
+    $sql = file_get_contents(dirname(__DIR__) . '/database.sql');
+    // The cloud database already exists under its own name: drop CREATE DATABASE / USE
+    $sql = preg_replace('/^\s*(CREATE DATABASE|USE)\b[^;]*;/mi', '', $sql);
+    $conn->multi_query($sql);
+    do {
+        if ($result = $conn->store_result()) {
+            $result->free();
+        }
+    } while ($conn->more_results() && $conn->next_result());
+
+    $user = DEFAULT_ADMIN_USERNAME;
+    $hash = password_hash(DEFAULT_ADMIN_PASSWORD, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare(
+        "INSERT IGNORE INTO users (username, password_hash, full_name, role)
+         VALUES (?, ?, 'System Administrator', 'admin')"
+    );
+    $stmt->bind_param('ss', $user, $hash);
+    $stmt->execute();
 }
 
 /** Escape text for safe HTML output. */

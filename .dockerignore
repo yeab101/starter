@@ -1,0 +1,12 @@
+# Not needed (or not safe) in the cloud image
+.git
+.gitignore
+Dockerfile
+.dockerignore
+install.php
+setup.ps1
+setup.bat
+build-portable.ps1
+portable/
+docs/
+README.md
